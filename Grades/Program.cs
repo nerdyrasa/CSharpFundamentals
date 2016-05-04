@@ -23,6 +23,8 @@ namespace Grades
             Console.WriteLine(stats.AverageGrade);
             Console.WriteLine(stats.HighestGrade);
             Console.WriteLine(stats.LowestGrade);
+
+            Console.WriteLine("End of Program");
         }
     }
 }
