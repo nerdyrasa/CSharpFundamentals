@@ -11,7 +11,7 @@ namespace Grades
     // variables hold a pointer value
     // can have multiple variables pointing to the same object
 
-    class GradeBook
+    public class GradeBook
     {
         // class members define
         // 1. state (nouns)
