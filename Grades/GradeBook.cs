@@ -55,6 +55,8 @@ namespace Grades
 
         // Field initializer syntax
         // List<float> grades = new List<float>();
+
+        public string Name;
         
     }
 }
