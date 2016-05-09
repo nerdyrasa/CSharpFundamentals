@@ -22,6 +22,7 @@ namespace Grades
         public GradeBook()
         {
             grades = new List<float>();
+            Name = "default value";
         }
 
         public void AddGrade(float grade)
