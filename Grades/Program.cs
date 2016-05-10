@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Speech.Synthesis;
 using System.Text;
@@ -13,14 +14,18 @@ namespace Grades
         {
             GradeBook book = new GradeBook();
 
-            // book.NameChanged += OnNameChanged;
-            // book.Name = "Rasa's Grade Book";
-            // SpeakGradeBookName(book.Name);
+            GetBookName(book);
 
-            book.AddGrade(91);
-            book.AddGrade(89.5f);
-            book.AddGrade(75);
+            book.NameChanged += OnNameChanged;
+            book.Name = "Rasa's Grade Book";
 
+            AddGrades(book);
+            SaveGrades(book);
+            WriteResults(book);
+        }
+
+        private static void WriteResults(GradeBook book)
+        {
             GradeStatistics stats = book.ComputeStatistics();
             WriteResult("Average", stats.AverageGrade);
             WriteResult("Highest", (int)stats.HighestGrade);
@@ -28,11 +33,39 @@ namespace Grades
             WriteResult(stats.Description, stats.LetterGrade);
         }
 
+        private static void SaveGrades(GradeBook book)
+        {
+            // book.WriteGrades(Console.Out);
+            using (StreamWriter outputFile = File.CreateText("grades.txt"))
+            {
+                book.WriteGrades(outputFile);
+            }
+        }
+
+        private static void AddGrades(GradeBook book)
+        {
+            book.AddGrade(91);
+            book.AddGrade(89.5f);
+            book.AddGrade(75);
+        }
+
+        private static void GetBookName(GradeBook book)
+        {
+            try
+            {
+                Console.WriteLine("Enter a name");
+                book.Name = Console.ReadLine();
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         static void OnNameChanged(object sender, NameChangedEventArgs args)
         {
             Console.WriteLine($"Grade book changing name from {args.ExistingName} to {args.NewName}.");
         }
-
 
         static void WriteResult(string description, float result)
         {
