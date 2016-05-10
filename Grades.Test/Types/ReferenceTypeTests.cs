@@ -7,9 +7,59 @@ using System.Threading.Tasks;
 
 namespace Grades.Test.Types
 {
+
     [TestClass]
     public class TypeTests
     {
+        #region Arrays
+
+        [TestMethod]
+        public void UsingArrays()
+        {
+            float[] grades;
+            grades = new float[3];
+
+            AddGrades(grades);
+
+            Assert.AreEqual(89.1f, grades[1]);
+
+        }
+
+        private void AddGrades(float[] grades)
+        {
+            grades[1] = 89.1f;
+        }
+
+        #endregion
+
+        #region Immutability
+
+        // Immutability
+
+        [TestMethod]
+        public void AddDaysToDateTime()
+        {
+            DateTime date = new DateTime(2015, 1, 1);
+            date = date.AddDays(1);
+
+            Assert.AreEqual(2, date.Day);
+        }
+
+        // Even though a strings are reference types, they
+        // act like a value type.
+
+        [TestMethod]
+        public void ToUpperCaseString()
+        {
+            string name = "rasa";
+            name = name.ToUpper();
+
+            Assert.AreEqual("RASA", name);
+        }
+
+        #endregion
+
+        #region ref and out
 
         [TestMethod]
         public void UseRefKeyword()
@@ -46,8 +96,9 @@ namespace Grades.Test.Types
         }
 
         // You can't use the ref and out keywords for async methods or iterator methods.
+        #endregion
 
-
+        #region reference and values types and passing parameters
         [TestMethod]
         public void StringComparisons()
         {
@@ -98,7 +149,35 @@ namespace Grades.Test.Types
             Assert.AreEqual(num1, num2);
 
         }
+        #endregion
+
+        #region Enums
+        [TestMethod]
+        public void TryOutEnums()
+        {
+            EmployeeType testEmployeeType = EmployeeType.Seasonal;
+            string output=null;
+            if (testEmployeeType==EmployeeType.Seasonal)
+            {
+                output = "Employee type is seasonal";
+            }
+
+            Assert.AreEqual("Employee type is seasonal", output);
+        }
+
+        #endregion
 
 
     }
+}
+
+// enum 
+
+public enum EmployeeType
+{
+    FullTime=0,
+    PartTime=1,
+    Seasonal=2,
+    Contract=3
+
 }

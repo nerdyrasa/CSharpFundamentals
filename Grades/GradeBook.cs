@@ -13,16 +13,13 @@ namespace Grades
 
     public class GradeBook
     {
-        // class members define
-        // 1. state (nouns)
-        // 2. behavior (verbs)
 
-        // ctor code snippet -- press tab twice. Easy peasy.
-        // constructor
         public GradeBook()
         {
             grades = new List<float>();
-            Name = "default value";
+            // use name, the field (which has first letter lower case), 
+            // not the property name, Name (which has first letter upper case)
+            name = "Empty";
         }
 
         public void AddGrade(float grade)
@@ -47,17 +44,29 @@ namespace Grades
             return stats;
         }
 
-        // This is a field.
-        // generic type syntax
-        // a list that can hold zero or more floating point numbers
-
 
         private List<float> grades;
 
-        // Field initializer syntax
-        // List<float> grades = new List<float>();
+        private string name;
 
-        public string Name;
-        
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+
+                if (!String.IsNullOrEmpty(value))
+                {
+                    if (name != value)
+                    {
+                        NameChanged(name, value);
+                    }
+                    name = value;
+                }
+            }
+        }
+
+        public NameChangedDelegate NameChanged;
+
     }
 }
