@@ -59,14 +59,24 @@ namespace Grades
                 {
                     if (name != value)
                     {
-                        NameChanged(name, value);
+                        // announcing the event here
+                        // elsewhere in program, if something subscribed to this event,
+                        // it is notified that it has occurred.
+                        NameChangedEventArgs args = new NameChangedEventArgs();
+                        args.ExistingName = name;
+                        args.NewName = value;
+                        
+                        NameChanged(this, args);
                     }
                     name = value;
                 }
             }
         }
 
-        public NameChangedDelegate NameChanged;
+        // add the keyword event
+        // events are based on delegates
+        // outside of this class, can only use += or -=; can't use = 
+        public event NameChangedDelegate NameChanged;
 
     }
 }

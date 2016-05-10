@@ -16,13 +16,16 @@ namespace Grades
             //synth.Speak("Hello. This is the grade book program");
 
             GradeBook book = new GradeBook();
-            book.NameChanged += new NameChangedDelegate(OnNameChanged);
-            book.NameChanged += new NameChangedDelegate(OnNameChanged2);
+            //The following is verbose. C# has a shorter syntax that means this
+            //book.NameChanged += new NameChangedDelegate(OnNameChanged);
+            //book.NameChanged += new NameChangedDelegate(OnNameChanged2);
+            // subscribe
+            book.NameChanged += OnNameChanged;
 
             // want to prevent being able to assign null to NameChanged
             // use events instead of raw delegates
             
-            // book.NameChanged = null;
+            //book.NameChanged = null;
 
             book.Name = "Rasa's Grade Book";
             book.AddGrade(91);
@@ -48,15 +51,12 @@ namespace Grades
             Console.WriteLine("End of Program");
         }
 
-        static void OnNameChanged(string existingName, string newName)
+        static void OnNameChanged(object sender, NameChangedEventArgs args)
         {
-            Console.WriteLine($"Grade book changing name from {existingName} to {newName}.");
+            Console.WriteLine($"Grade book changing name from {args.ExistingName} to {args.NewName}.");
         }
 
-        static void OnNameChanged2(string existingName, string newName)
-        {
-            Console.WriteLine("***");
-        }
+
 
         static void WriteResult(string description, float result)
         {
