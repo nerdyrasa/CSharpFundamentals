@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Grades
     // variables hold a pointer value
     // can have multiple variables pointing to the same object
 
-    public class GradeBook
+    public class GradeBook : GradeTracker
     {
         public GradeBook()
         {
@@ -22,7 +23,7 @@ namespace Grades
             name = "Empty";
         }
 
-        public void WriteGrades(TextWriter destination)
+        public override void WriteGrades(TextWriter destination)
         {
             for (int i = 0; i < grades.Count; i++)
             {
@@ -30,12 +31,12 @@ namespace Grades
             }
         }
 
-        public void AddGrade(float grade)
+        public override void AddGrade(float grade)
         {
             grades.Add(grade);
         }
 
-        public GradeStatistics ComputeStatistics()
+        public override GradeStatistics ComputeStatistics()
         {
             GradeStatistics stats = new GradeStatistics();
 
@@ -52,34 +53,13 @@ namespace Grades
             return stats;
         }
 
-
-        private List<float> grades;
-
-        private string name;
-
-        public string Name
+        public override IEnumerator GetEnumerator()
         {
-            get { return name; }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("Name cannot be null or empty");
-                }
-
-                if (name != value && NameChanged != null)
-                {
-                    NameChangedEventArgs args = new NameChangedEventArgs();
-                    args.ExistingName = name;
-                    args.NewName = value;
-
-                    NameChanged(this, args);
-                }
-                name = value;
-            }
+            return grades.GetEnumerator();
         }
 
-        public event NameChangedDelegate NameChanged;
+        protected List<float> grades;
+
     }
 
 }
